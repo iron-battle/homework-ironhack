@@ -45,3 +45,4 @@ public abstract class Character {
         isAlive = alive;
     }
 }
+
