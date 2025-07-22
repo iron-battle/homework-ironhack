@@ -1,6 +1,5 @@
 package model;
 
-
 import interfaces.Attacker;
 
 import java.util.Random;
@@ -18,12 +17,17 @@ public class Warrior extends Character implements Attacker {
     }
     // Example attack
     public void attack(Character target, boolean specialAttack) {
-        if (specialAttack) {
-            target.setHp(target.getHp() - getStrength()); // Ataque fuerte
-            setStamina(getStamina() - 5); // Reduce stamina
-        } else {
-            target.setHp(target.getHp() - getStrength() / 2); // Ataque débil
-            setStamina(getStamina() + 1); // Aumenta stamina
+        if (specialAttack && (getStamina() >= 5 )) {
+            // Ataque fuerte
+            target.setHp(target.getHp() - getStrength());
+            setStamina(getStamina() - 5);
+        } else if (getStamina() > 0) {
+            // Ataque débil
+            target.setHp(target.getHp() - (getStrength() / 2));
+            setStamina(getStamina() + 1);
+        } else {  
+            //Sin resistencia suficiente para atacar
+            setStamina(getStamina() + 2);
         }
     }
 
