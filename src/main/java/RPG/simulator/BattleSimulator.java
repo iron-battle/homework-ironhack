@@ -1,4 +1,4 @@
-package simulator;
+package RPG.simulator;
 
 public class BattleSimulator {
 }
