@@ -71,6 +71,7 @@ public class Warrior extends Character implements Attacker {
                 '}';
     }
 
+    @Override
     public void reset() {
         setHp(ORIGINAL_HP);
         setStamina(ORIGINAL_STAMINA);

@@ -68,7 +68,7 @@ public class Wizard extends Character implements Attacker {
                 ", intelligence =" + getIntelligence() +
                 '}';
     }
-
+    @Override
     public void reset() {
         setAlive(true);
         setHp(originalHp);
