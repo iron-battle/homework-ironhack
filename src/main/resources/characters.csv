@@ -1,0 +1,7 @@
+type,name,hp,stat1,stat2
+warrior,Arthur,180,40,8
+wizard,Morgana,90,45,30
+warrior,Lancelot,150,35,10
+wizard,Merlin,100,50,50
+warrior,Guinevere,120,25,7
+wizard,Vivian,80,40,20
