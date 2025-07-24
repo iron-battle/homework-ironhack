@@ -9,7 +9,7 @@ public abstract class Character {
     private boolean isAlive;
 
     public Character(String name, int hp) {
-        this.id = generateUUID();
+        this.id = generateUUID(); // Genera un ID único para el personaje
         this.name = name;
         this.hp = hp;
         this.isAlive = true;
@@ -22,7 +22,7 @@ public abstract class Character {
      * @param damage Daño recibido
      */
     public void receiveDamage(int damage) {
-        this.hp -= damage;
+        this.hp -= damage; // Resta el daño a los puntos de vida
         if (this.hp <= 0) {
             this.hp = 0;
             this.isAlive = false;
@@ -31,7 +31,7 @@ public abstract class Character {
 
     @Override
     public String toString() {
-        return "Character{" +
+        return "Character {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", hp=" + hp +
@@ -70,4 +70,6 @@ public abstract class Character {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
+
+    public abstract void reset();
 }
