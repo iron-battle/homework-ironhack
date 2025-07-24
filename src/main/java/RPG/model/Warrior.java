@@ -1,76 +1,86 @@
+// Warrior.java
 package RPG.model;
 
 import RPG.interfaces.Attacker;
 
 import java.util.Random;
 
+/**
+ * Clase que representa a un Guerrero (Warrior).
+ * Tiene atributos de fuerza y resistencia, y ejecuta ataques variables.
+ */
 public class Warrior extends Character implements Attacker {
+
     private int stamina;
     private int strength;
 
-    // Valores originales para hacer reset
+    // Copias de seguridad para restaurar estado original con reset()
     private final int ORIGINAL_HP;
     private final int ORIGINAL_STAMINA;
     private final int ORIGINAL_STRENGTH;
 
-    public Warrior( String name, int hp) {
-        super( name, hp);
-        Random random = new Random(); // Initialize random number generator
-        this.stamina = random.nextInt(50) + 1;
-        // Random stamina between 1 and 50
-        this.strength = random.nextInt(10) + 1; // Random strength between 1 and 50
+    /**
+     * Constructor aleatorio (solo nombre y vida, los demás valores se generan).
+     */
+    public Warrior(String name, int hp) {
+        super(name, hp);
 
-        // Guardamos los valores originales
+        Random random = new Random();
+        this.stamina = random.nextInt(50) + 1;    // 1 - 50
+        this.strength = random.nextInt(10) + 1;   // 1 - 10
+
         this.ORIGINAL_HP = hp;
         this.ORIGINAL_STAMINA = stamina;
         this.ORIGINAL_STRENGTH = strength;
     }
-    public Warrior( String name, int hp, int stamina, int strength) {
+
+    /**
+     * Constructor con todos los atributos definidos.
+     */
+    public Warrior(String name, int hp, int stamina, int strength) {
         super(name, hp);
         this.stamina = stamina;
         this.strength = strength;
 
-        // Guardamos los valores originales
         this.ORIGINAL_HP = hp;
         this.ORIGINAL_STAMINA = stamina;
         this.ORIGINAL_STRENGTH = strength;
     }
 
-    // Example attack
+    /**
+     * Ejecuta un ataque sobre el objetivo.
+     * Hay 3 posibles acciones según la stamina:
+     * - Ataque fuerte: consume 5 de stamina
+     * - Ataque débil: suma 1 de stamina
+     * - Descanso: suma 2 de stamina
+     */
+    @Override
     public void attack(Character target) {
         boolean specialAttack = new Random().nextBoolean();
         int damage;
-        if (specialAttack && (getStamina() >= 5 )) {
-            // Ataque fuerte
-            System.out.println(getName() + " performs a heavy attack on " + target.getName());
-            damage = getStrength();
+
+        if (specialAttack && stamina >= 5) {
+            // Ataque fuerte: daño total = fuerza
+            System.out.println("\t" + getName() + " performs a HEAVY attack on " + target.getName());
+            damage = strength;
             target.receiveDamage(damage);
-            setStamina(getStamina() - 5);
-        } else if (getStamina() > 0) {
-            // Ataque débil
-            System.out.println(getName() + " performs a weak attack on " + target.getName());
-            damage = getStrength() / 2;
+            stamina -= 5;
+        } else if (stamina > 0) {
+            // Ataque débil: daño = fuerza / 2 (truncado)
+            System.out.println("\t" + getName() + " performs a WEAK attack on " + target.getName());
+            damage = strength / 2;
             target.receiveDamage(damage);
-            setStamina(getStamina() + 1);
-        } else {  
-            //Sin resistencia suficiente para atacar
-            System.out.println(getName() + " is too tired to attack. Resting...");
-            setStamina(getStamina() + 2);
+            stamina += 1; // recuperación leve
+        } else {
+            // Sin energía suficiente para atacar
+            System.out.println("\t" + getName() + " is too tired to attack. Resting...");
+            stamina += 2; // recuperación pasiva
         }
     }
 
-    @Override
-    public String toString() {
-        return "Warrior{" +
-                "id ='" + getId() + '\'' +
-                ", name ='" + getName() + '\'' +
-                ", hp =" + getHp() +
-                ", isAlive =" + isAlive() +
-                ", stamina =" + stamina +
-                ", strength =" + strength +
-                '}';
-    }
-
+    /**
+     * Restaura los valores originales del guerrero (vida, fuerza y stamina).
+     */
     @Override
     public void reset() {
         setHp(ORIGINAL_HP);
@@ -78,6 +88,8 @@ public class Warrior extends Character implements Attacker {
         setStrength(ORIGINAL_STRENGTH);
         setAlive(true);
     }
+
+    // === Getters y Setters ===
 
     public int getStamina() {
         return stamina;
@@ -95,4 +107,21 @@ public class Warrior extends Character implements Attacker {
         this.strength = strength;
     }
 
+    // === Representación textual del objeto ===
+
+    @Override
+    public String toString() {
+        return String.format(
+                """
+                ───── Warrior ─────
+                ID        : %s
+                Name      : %s
+                HP        : %d
+                Alive     : %s
+                Stamina   : %d
+                Strength  : %d
+                """,
+                getId(), getName(), getHp(), isAlive(), stamina, strength
+        );
+    }
 }
