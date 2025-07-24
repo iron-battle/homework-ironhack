@@ -1,8 +1,7 @@
 ````markdown name=README.md
 # homework-ironhack
 
-En este repositorio implementamos un **RPG Battle Simulator** para practicar la herencia de clases y polimorfismo en Java.
-
+En este repositorio implementamos un **RPG Battle Simulator**.
 ---
 
 ## 🎲 RPG Battle Simulator
