@@ -10,4 +10,8 @@ public class AnsiColors {
     public static final String BLUE  = "\u001B[34m";
     // Código ANSI para color verde (usado para mensajes del sistema)
     public static final String GREEN = "\u001B[32m";
+    // Código ANSI para color cian (usado para mensajes de batalla)
+    public static final String CYAN  = "\u001B[36m";
+    // Código ANSI para color amarillo (usado para mensajes de error)
+    public static final String YELLOW = "\u001B[33m";
 }

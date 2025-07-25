@@ -1,4 +1,3 @@
-````markdown name=README.md
 # homework-ironhack
 
 En este repositorio implementamos un **RPG Battle Simulator**.

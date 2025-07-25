@@ -24,8 +24,6 @@ public class BattleSimulator {
 
         while (!finished) {
             printBattleStart(player1, player2);
-            resetPlayers(player1, player2);
-
             int round = 1;
 
             // Bucle de rondas hasta que uno pierda
@@ -36,9 +34,16 @@ public class BattleSimulator {
                 playRound(player1, player2);
 
                 if (isBattleOver(player1, player2)) {
-                    finished = handleBattleEnd(player1, player2, ++battles);
-                    if (finished) break; // Salir si hay ganador
-                    else continue;       // Reiniciar si fue empate
+                    finished = handleBattleEnd(player1, player2, battles);
+
+                    if (finished) {
+                        break; // Salir si hay ganador
+                    } else {
+                        battles++; // Solo se incrementa si fue empate
+                        resetPlayers(player1, player2);
+                        round=1;
+                        continue;  // Reiniciar combate
+                    }
                 }
 
                 round++;
@@ -60,18 +65,27 @@ public class BattleSimulator {
      * Ejecuta una ronda de combate: cada personaje ataca si sigue vivo.
      */
     private static void playRound(Character player1, Character player2) {
-        if (player1.isAlive()) {
-            System.out.println( RED + player1.getName() + " attacks " + player2.getName() + "!" + RESET);
-            ((Attacker) player1).attack(player2);
-            System.out.println("\t" + player2.getName() + " HP after attack: " + player2.getHp());
+        // Guardamos si estaban vivos al principio de la ronda
+        boolean p1WasAlive = player1.isAlive();
+        boolean p2WasAlive = player2.isAlive();
+
+        // Mostrar mensajes de intención de ataque
+        if (p1WasAlive) {
+            System.out.println(RED + player1.getName() + " attacks " + player2.getName() + "!" + RESET);
+        }
+        if (p2WasAlive) {
+            System.out.println(BLUE + player2.getName() + " attacks " + player1.getName() + "!" + RESET);
         }
 
-        if (player2.isAlive()) {
-            System.out.println( BLUE + player2.getName() + " attacks " + player1.getName() + "!" + RESET);
-            ((Attacker) player2).attack(player1);
-            System.out.println("\t" + player1.getName() + " HP after attack: " + player1.getHp());
-        }
-        sleep(2000);
+        // Ejecutar los ataques — usando el estado original
+        if (p1WasAlive) ((Attacker) player1).attack(player2);
+        if (p2WasAlive) ((Attacker) player2).attack(player1);
+
+        // Mostrar el HP actualizado de cada uno
+        System.out.println("\t" + player1.getName() + " HP after attack: " + player1.getHp());
+        System.out.println("\t" + player2.getName() + " HP after attack: " + player2.getHp());
+
+        sleep(1500);
     }
 
     /**
@@ -79,17 +93,17 @@ public class BattleSimulator {
      */
     private static void printBattleStart(Character player1, Character player2) {
         System.out.println(GREEN + "\n====== BATTLE BEGINS ======" + RESET);
-        System.out.println(RED + player1.getName() + RESET + " vs " + BLUE  + player2.getName() + RESET);
-        sleep(1000);
+        System.out.println("\t" + RED + player1.getName() + RESET + " vs " + BLUE  + player2.getName() + RESET);
+        sleep(3000);
     }
 
     /**
      * Muestra encabezado de ronda con número de batalla y ronda actual.
      */
     private static void printRoundHeader(int battles, int round) {
-        System.out.println(GREEN + "──────────────────────────" + RESET);
-        System.out.println("--- Battle " + battles + " - Round " + round + " ---");
-        System.out.println(GREEN + "──────────────────────────" + RESET);
+        System.out.println(GREEN + "============================================" + RESET);
+        System.out.println("\t\t>>> Batalla " + battles + " | Ronda " + round + " <<<");
+        System.out.println(GREEN + "============================================" + RESET);
 
     }
 
@@ -100,7 +114,7 @@ public class BattleSimulator {
         System.out.println(
                 RED + player1.getName() + " HP: " + player1.getHp() + RESET + " | " + BLUE + player2.getName() + " HP: " + player2.getHp() + RESET
         );
-//        sleep(600);
+        sleep(200);
 
     }
 
@@ -117,16 +131,22 @@ public class BattleSimulator {
      * @return true si hay ganador, false si hay empate y debe repetirse
      */
     private static boolean handleBattleEnd(Character player1, Character player2, int battles) {
-        System.out.println(GREEN + "\n====== BATTLE OVER ======" + RESET);
+        System.out.println(GREEN + "\n\t====== BATTLE OVER ======" + RESET);
 
         if (player1.isAlive() && !player2.isAlive()) {
-            System.out.println(RED + player1.getName() + " wins!" + RESET);
+            System.out.println("\t\t" + RED + player1.getName() + " wins!" + RESET );
+            System.out.println("\t\t" +GREEN + "Thanks for playing!" + RESET);
+            System.out.println(GREEN + "Total draws before final result: " + (battles - 1) + RESET);
+            System.out.println("\n");
             return true;
         } else if (!player1.isAlive() && player2.isAlive()) {
-            System.out.println(BLUE + player2.getName() + " wins!" + RESET);
+            System.out.println("\t\t" + BLUE + player2.getName() + " wins!" + RESET  );
+            System.out.println("\t\t" + GREEN + "Thanks for playing!" + RESET);
+            System.out.println(GREEN + "Total draws before final result: " + (battles - 1) + RESET);
+            System.out.println("\n");
             return true;
         } else {
-            System.out.println(GREEN + "It's a draw! Restarting battle..." + RESET);
+            System.out.println(YELLOW + "\n\t⚔️⚔️ IT'S A DRAW! RESTARTING BATTLE... ⚔️⚔️" + RESET );
             return false;
         }
 }

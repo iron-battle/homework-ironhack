@@ -7,6 +7,7 @@ import RPG.utils.FactoryCharacter;
 import RPG.utils.LoadCaracterCSV;
 import RPG.utils.RandomCharacter;
 import RPG.simulator.BattleSimulator;
+import static RPG.utils.AnsiColors.*;
 
 public class Main {
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -22,10 +23,13 @@ public class Main {
     }
 
     private static void showMenu() {
-        System.out.println("\n===== RPG BATTLE MENU =====");
-        System.out.println("1. Create custom characters and battle");
-        System.out.println("2. Random battle simulation");
-        System.out.println("3. Exit");
+        System.out.println(GREEN + "╔══════════════════════════════════════╗" + RESET);
+        System.out.println(GREEN + "║           RPG BATTLE MENU            ║" + RESET);
+        System.out.println(GREEN + "║                                      ║" + RESET);
+        System.out.println(GREEN + "║  1. Create custom characters         ║" + RESET);
+        System.out.println(GREEN + "║  2. Random battle simulation         ║" + RESET);
+        System.out.println(GREEN + "║  3. Exit                             ║" + RESET);
+        System.out.println(GREEN + "╚══════════════════════════════════════╝" + RESET);
         System.out.print("Choose an option: ");
     }
 
@@ -51,49 +55,53 @@ public class Main {
     }
 
     private static void customBattle() {
-        System.out.println("\n--- CUSTOM BATTLE ---");
-        System.out.println("1. Crear personajes personalizados para la batalla");
-        System.out.println("2. Importar personajes desde CSV");
-        System.out.print("Elige una opción: ");
+        System.out.println(GREEN + "\n╔══════════════════════════════════════╗" + RESET);
+        System.out.println(GREEN +   "║         CUSTOM BATTLE MENU           ║" + RESET);
+        System.out.println(GREEN +   "║                                      ║" + RESET);
+        System.out.println(GREEN +   "║  1. Create characters (Manual)       ║" + RESET);
+        System.out.println(GREEN +   "║  2. Import characters from CSV       ║" + RESET);
+        System.out.println(GREEN +   "╚══════════════════════════════════════╝" + RESET);
+        System.out.print("Choose an option: ");
         String choice = SCANNER.nextLine().trim();
         if (choice.equals("1")) {
             Character player1 = FactoryCharacter.createCharacter("Player 1");
             Character player2 = FactoryCharacter.createCharacter("Player 2");
-            System.out.println("\nPersonajes creados:");
+            System.out.println("\nCreated characters:");
             System.out.println(player1);
             System.out.println(player2);
-            System.out.println("\nIniciando batalla...");
+            System.out.println("\nStarting battle...");
             startBattle(player1, player2);
         } else if (choice.equals("2")) {
             List<Character> characters = LoadCaracterCSV.loadFromCSV("characters.csv");
             if (characters.isEmpty()) {
-                System.out.println("No hay personajes disponibles.");
+                System.out.println("No characters available.");
                 return;
             }
-            System.out.println("Personajes disponibles:");
+            System.out.println("Available characters:");
             for (int i = 0; i < characters.size(); i++) {
                 System.out.println((i + 1) + ". " + characters.get(i));
             }
             Character player1 = selectCharacterFromList(characters, "Player 1");
             Character player2 = selectCharacterFromList(characters, "Player 2");
-            System.out.println("\nPersonajes seleccionados:");
+            System.out.println("\nSelected characters:");
             System.out.println(player1);
             System.out.println(player2);
-            System.out.println("\nIniciando batalla...");
+            System.out.println("\nStarting battle...");
             startBattle(player1, player2);
         } else {
-            System.out.println("Opción inválida. Regresando al menú principal.");
+            System.out.println("Invalid option. Returning to the main menu.");
         }
     }
 
     private static void randomBattle() {
-        System.out.println("\n--- RANDOM BATTLE ---");
+        System.out.println(GREEN + "\n================= RANDOM BATTLE =================" + RESET);
         Character player1 = RandomCharacter.generateRandomCharacter();
         Character player2 = RandomCharacter.generateRandomCharacter();
         System.out.println(player1);
         System.out.println(player2);
         System.out.println("\nCharacters created:");
         System.out.println("\nStarting battle...");
+        System.out.println(GREEN + "============================================" + RESET);
         startBattle(player1, player2);
     }
 

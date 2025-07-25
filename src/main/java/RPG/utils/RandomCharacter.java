@@ -16,7 +16,6 @@ public class RandomCharacter {
      * @return una instancia de Character aleatoria
      */
     public static Character generateRandomCharacter() {
-        System.out.print("Generating a random character... ");
 
         String type = chooseRandomType();             // Decide aleatoriamente el tipo
         String name = generateRandomName(type);       // Genera un nombre acorde al tipo
@@ -40,6 +39,8 @@ public class RandomCharacter {
         int stamina = generateRandomAttribute(10, 50);
         int strength = generateRandomAttribute(1, 10);
         return new Warrior(name, hp, stamina, strength);
+        //return new Warrior("Merlín", 10, 100, 10); // Ejemplo de Warrior con valores fijos testing empate
+
     }
 
     /**
@@ -51,6 +52,7 @@ public class RandomCharacter {
         int hp = generateRandomAttribute(50, 100);
         int mana = generateRandomAttribute(10, 50);
         int intelligence = generateRandomAttribute(1, 50);
+//        return new Wizard("Merlín", 10, 100, 10); // Ejemplo de Wizard con valores fijos testing empate
         return new Wizard(name, hp, mana, intelligence);
     }
 

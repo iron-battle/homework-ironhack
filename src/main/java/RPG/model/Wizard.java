@@ -26,6 +26,7 @@ public class Wizard extends Character implements Attacker {
         super(name, hp);
 
         Random random = new Random();
+        setHp(random.nextInt(51) + 50); // 50 - 100
         this.mana = random.nextInt(50) + 1;         // 1 - 50
         this.intelligence = random.nextInt(50) + 1; // 1 - 50
 
